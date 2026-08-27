@@ -39,7 +39,7 @@ public class TelaRecuperarSenha {
             } else if (!novaSenha.equals(confirmarSenha)) {
                 JOptionPane.showMessageDialog(janela, "As senhas não coincidem! Tente novamente.");
             } else {
-                Usuario.senha = novaSenha;
+                Usuario.setSenha(novaSenha);
                 JOptionPane.showMessageDialog(janela, "Senha alterada com sucesso!");
             }
 

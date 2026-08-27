@@ -29,10 +29,12 @@ public class TelaPrincipal {
         conteudo.add(titulo);
 
         JButton botaoTarefas = new JButton("Tarefas");
+
+        TelaTarefas telaTarefas= new TelaTarefas();
         botaoTarefas.addActionListener(e ->{
             conteudo.removeAll();
 
-            conteudo.add(TelaTarefas.criar());
+            conteudo.add(telaTarefas.criar());
 
             conteudo.revalidate();
             conteudo.repaint();

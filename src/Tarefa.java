@@ -43,5 +43,9 @@ public class Tarefa {
         this.concluida = concluida;
     }
 
+    @Override
+    public String toString(){
+        return "Tarefa: " + texto + " | Prioridade: " + prioridade + " | Prazo: " + prazo + " | Concluída: " + concluida;
+    }
 
 }

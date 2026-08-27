@@ -47,8 +47,8 @@ public class TelaCadastrarConta {
             }
 
             else {
-                Usuario.login = novoUser;
-                Usuario.senha = novaSenha;
+                Usuario.setLogin(novoUser);
+                Usuario.setSenha(novaSenha);
                 JOptionPane.showMessageDialog(janela, "Conta criada com sucesso!");
 
                 janela.dispose();

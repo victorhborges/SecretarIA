@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -8,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class TarefaPainel {
-    public static JPanel criar(Tarefa tarefa, JPanel listaTarefas, List<Tarefa> tarefas) {
+    public static JPanel criar(Tarefa tarefa, JPanel listaTarefas, GerenciadorTarefas gerenciador, JLabel resumo) {
         JPanel painel = new JPanel(new BorderLayout());
 
         painel.setMaximumSize (new Dimension(Integer.MAX_VALUE, 40));
@@ -32,13 +31,17 @@ public class TarefaPainel {
                 tarefa.setConcluida(false);
                 tarefaTexto.setText(tarefa.getTexto());
             }
+
+            TelaTarefas.atualizarResumo(resumo, gerenciador);
         });
 
         JButton botaoExcluir = new JButton("X");
 
         botaoExcluir.addActionListener(e -> {
-            tarefas.remove(tarefa);
+            gerenciador.remover(tarefa);
             listaTarefas.remove(painel);
+
+            TelaTarefas.atualizarResumo(resumo, gerenciador);
 
             listaTarefas.revalidate();
             listaTarefas.repaint();

@@ -39,7 +39,7 @@ public class TelaLogin {
 
             if (login.isEmpty() || senha.isEmpty()) {
                 JOptionPane.showMessageDialog(janela, "Por favor, preencha todos os campos.");
-            } else if (login.equals(Usuario.login) && senha.equals(Usuario.senha)) {
+            } else if (login.equals(Usuario.getLogin()) && senha.equals(Usuario.getSenha())) {
                 TelaPrincipal.abrir();
                 janela.dispose();
             } else {

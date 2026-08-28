@@ -39,14 +39,15 @@ public class TelaPrincipal {
             conteudo.revalidate();
             conteudo.repaint();
         });
-
+        
         JButton botaoAgenda = new JButton("Agenda");
+
+        TelaAgenda telaAgenda = new TelaAgenda();
+
         botaoAgenda.addActionListener(e ->{
             conteudo.removeAll();
 
-            JLabel tituloAgenda = new JLabel("AGENDA");
-
-            conteudo.add(tituloAgenda);
+            conteudo.add(telaAgenda.criar());
 
             conteudo.revalidate();
             conteudo.repaint();

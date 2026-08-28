@@ -3,8 +3,11 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class TarefaPainel {
     public static JPanel criar(Tarefa tarefa, JPanel listaTarefas, GerenciadorTarefas gerenciador, JLabel resumo) {
@@ -47,8 +50,66 @@ public class TarefaPainel {
             listaTarefas.repaint();
         });
 
+        JButton botaoEditar = new JButton("Editar");
+
+        botaoEditar.addActionListener(e->{
+            JTextField campoTexto = new JTextField(tarefa.getTexto());
+
+            String[] prioridades = {"Baixa", "Média", "Alta"};
+            JComboBox<String> campoPrioridade = new JComboBox<>(prioridades);
+            campoPrioridade.setSelectedItem(tarefa.getPrioridade());
+
+            JTextField campoPrazo = new JTextField(tarefa.getPrazo());
+
+            JPanel painelEdicao = new JPanel();
+
+            painelEdicao.add(new JLabel("Tarefa: "));
+            painelEdicao.add(campoTexto);
+
+            painelEdicao.add(new JLabel ("Prioridades: "));
+            painelEdicao.add(campoPrioridade);
+
+            painelEdicao.add(new JLabel ("Prazo:"));
+            painelEdicao.add(campoPrazo);
+
+            int resultado = JOptionPane.showConfirmDialog(null,
+                painelEdicao,
+                "Editar tarefa", JOptionPane.OK_CANCEL_OPTION);
+
+            if (resultado == JOptionPane.OK_OPTION) {
+            String novoTexto = campoTexto.getText().trim();
+            String novaPrioridade = (String) campoPrioridade.getSelectedItem();
+            String novoPrazo = campoPrazo.getText().trim();
+            
+
+            if (gerenciador.editar(tarefa, novoTexto, novaPrioridade,novoPrazo)){
+                tarefaTexto.setText(
+                tarefa.isConcluida()
+                    ? "✓ " + tarefa.getTexto()
+                    : tarefa.getTexto());
+
+            labelPrioridade.setText("Prioridade: " + tarefa.getPrioridade());
+            labelPrazo.setText("Prazo: " + tarefa.getPrazo());
+
+            listaTarefas.revalidate();
+            listaTarefas.repaint();
+            }
+
+            else{
+                JOptionPane.showMessageDialog(null,"Não foi possível editar a tarefa. Verifique o texto e o prazo");
+            }
+        }
+    });
+
+        JPanel painelBotoes = new JPanel();
+
+        painelBotoes.add(botaoEditar);
+        painelBotoes.add(botaoExcluir);
+
+        painel.add(painelBotoes, BorderLayout.EAST);
+
         painel.add(informacoes, BorderLayout.CENTER);
-        painel.add(botaoExcluir, BorderLayout.EAST);
+        
 
         informacoes.add(concluida);
         informacoes.add(tarefaTexto);

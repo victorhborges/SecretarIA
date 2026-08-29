@@ -3,18 +3,28 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 public class TelaAgenda {
 
     private LocalDate mesAtual = LocalDate.of(2026, 8, 1);
 
+    private GerenciadorCompromissos gerenciador;
+
+    public TelaAgenda(){
+            gerenciador = new GerenciadorCompromissos();
+        }
+
     public JPanel criar() {
+
 
         JPanel painel = new JPanel(new BorderLayout());
         JPanel gradeDias = new JPanel(new GridLayout(6, 7));
@@ -22,6 +32,12 @@ public class TelaAgenda {
         JLabel titulo = new JLabel("AGENDA");
 
         JLabel dataSelecionada= new JLabel("Nenhum dia selecionado!");
+
+        JPanel listaCompromissos = new JPanel();
+        listaCompromissos.setLayout(new BoxLayout(listaCompromissos, BoxLayout.Y_AXIS));
+
+        JPanel informacaoDia = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        informacaoDia.add(dataSelecionada);
 
         JPanel cabecalho = new JPanel(new FlowLayout());
 
@@ -34,7 +50,7 @@ public class TelaAgenda {
         botaoAnterior.addActionListener(e -> {
             mesAtual = mesAtual.minusMonths(1);
             mesAno.setText(mesAtual.format(formatoMes));
-            atualizarCalendario(gradeDias, dataSelecionada);
+            atualizarCalendario(gradeDias, dataSelecionada, listaCompromissos);
 
             dataSelecionada.setText("Nenhum dia selecionado!");
         });
@@ -43,7 +59,7 @@ public class TelaAgenda {
         botaoProximo.addActionListener(e -> {
             mesAtual = mesAtual.plusMonths(1);
             mesAno.setText(mesAtual.format(formatoMes));
-            atualizarCalendario(gradeDias, dataSelecionada);
+            atualizarCalendario(gradeDias, dataSelecionada, listaCompromissos);
 
             dataSelecionada.setText("Nenhum dia selecionado!");
         });
@@ -74,23 +90,32 @@ public class TelaAgenda {
         diasSemana.add(sabado);
         diasSemana.add(domingo);
 
-        atualizarCalendario(gradeDias, dataSelecionada);
+        atualizarCalendario(gradeDias, dataSelecionada, listaCompromissos);
 
         JPanel calendario = new JPanel(new BorderLayout());
 
+        JPanel corpoCalendario = new JPanel(new BorderLayout());
+
         JPanel areaInferior = new JPanel(new BorderLayout());
+
+        JPanel areaCompromissos = new JPanel(new BorderLayout());
 
         cabecalho.add(botaoAnterior);
         cabecalho.add(mesAno);
         cabecalho.add(botaoProximo);
 
         calendario.add(cabecalho, BorderLayout.NORTH);
-        calendario.add(diasSemana, BorderLayout.CENTER);
-        calendario.add(areaInferior, BorderLayout.SOUTH);
+
+        corpoCalendario.add(diasSemana, BorderLayout.NORTH);
+        corpoCalendario.add(areaInferior, BorderLayout.CENTER);
+        corpoCalendario.add(areaCompromissos, BorderLayout.SOUTH);
+
+        calendario.add(corpoCalendario, BorderLayout.CENTER);
 
         areaInferior.add(gradeDias, BorderLayout.CENTER);
-        areaInferior.add(dataSelecionada, BorderLayout.SOUTH);
-        
+        areaInferior.add(informacaoDia, BorderLayout.SOUTH);
+
+        areaCompromissos.add(listaCompromissos);
 
         painel.add(titulo, BorderLayout.NORTH);
         painel.add(calendario, BorderLayout.CENTER);
@@ -98,7 +123,7 @@ public class TelaAgenda {
         return painel;
     }
 
-    private void atualizarCalendario(JPanel gradeDias, JLabel dataSelecionada) {
+    private void atualizarCalendario(JPanel gradeDias, JLabel dataSelecionada, JPanel listaCompromissos) {
 
         gradeDias.removeAll();
 
@@ -125,8 +150,26 @@ public class TelaAgenda {
                 String dataFormatada = dataDoBotao.format(formatoData);
                 dataSelecionada.setText("Dia selecionado: " + dataFormatada);
 
-            });
+                String descricao = JOptionPane.showInputDialog(null,"Digite o compromisso:");
 
+                if(descricao != null && !descricao.trim().isEmpty()){
+                    Compromisso compromisso = new Compromisso(descricao.trim(), dataDoBotao, LocalTime.now());
+
+                    gerenciador.adicionar(compromisso);
+
+                    JLabel compromissoLabel = new JLabel(compromisso.toString());
+
+                    listaCompromissos.add(compromissoLabel);
+
+                    listaCompromissos.revalidate();
+                    listaCompromissos.repaint();
+                }
+
+                else{
+                    JOptionPane.showMessageDialog(null,"O campo não pode estar vazio");
+                }
+                
+            });
 
             gradeDias.add(botaoDia);
         }

@@ -5,13 +5,14 @@ import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class TelaAgenda {
 
@@ -130,6 +131,7 @@ public class TelaAgenda {
         int quantidadeDias = mesAtual.lengthOfMonth();
         int primeiroDia = mesAtual.getDayOfWeek().getValue();
 
+
         LocalDate hoje = LocalDate.now();
 
         DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -157,12 +159,7 @@ public class TelaAgenda {
 
                     gerenciador.adicionar(compromisso);
 
-                    JLabel compromissoLabel = new JLabel(compromisso.toString());
-
-                    listaCompromissos.add(compromissoLabel);
-
-                    listaCompromissos.revalidate();
-                    listaCompromissos.repaint();
+                    atualizarListaCompromissos(listaCompromissos, dataDoBotao);
                 }
 
                 else{
@@ -173,8 +170,20 @@ public class TelaAgenda {
 
             gradeDias.add(botaoDia);
         }
-
         gradeDias.revalidate();
         gradeDias.repaint();
     }
+
+    private void atualizarListaCompromissos(JPanel listaCompromissos, LocalDate data){
+            listaCompromissos.removeAll();
+
+
+            List <Compromisso> compromissosDoDia = gerenciador.buscarPorData(data);
+
+            for (Compromisso compromissoDoDia : compromissosDoDia){
+                JLabel compromissoLabel = new JLabel(compromissoDoDia.toString());
+                
+                listaCompromissos.add(compromissoLabel);
+            }
+        }
 }

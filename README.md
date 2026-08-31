@@ -12,15 +12,7 @@ O projeto está em desenvolvimento contínuo e tem como objetivo evoluir de uma 
 
 O **SecretarIA** é uma aplicação de organização pessoal que reúne funcionalidades para auxiliar o usuário no gerenciamento de suas atividades e compromissos.
 
-Atualmente, o sistema conta com:
-
-* 🔐 Sistema básico de autenticação
-* ✅ Gerenciamento de tarefas
-* 📅 Calendário mensal
-* 📝 Cadastro de compromissos
-* 📌 Seleção de datas
-* ⏰ Registro de horário dos compromissos
-* 🗓️ Navegação entre meses
+Atualmente, o sistema possui módulos de **tarefas** e **agenda**, permitindo cadastrar, acompanhar e organizar atividades e compromissos por data.
 
 O projeto está sendo desenvolvido de forma incremental, com novas funcionalidades sendo adicionadas conforme os conhecimentos em Java são aprofundados.
 
@@ -49,7 +41,6 @@ O projeto está sendo desenvolvido de forma incremental, com novas funcionalidad
 * Impedimento de prazos anteriores à data atual
 * Marcação de tarefas como concluídas
 * Exclusão de tarefas
-* Edição de tarefas
 * Contador de tarefas
 * Contador de tarefas concluídas
 * Contador de tarefas pendentes
@@ -59,13 +50,12 @@ O projeto está sendo desenvolvido de forma incremental, com novas funcionalidad
 * Visualização de calendário mensal
 * Navegação entre meses
 * Identificação do dia atual
-* Seleção de dias
-* Exibição da data selecionada
-* Cadastro de compromissos
-* Registro do horário do compromisso
-* Exibição dos compromissos cadastrados
-* Formatação de datas no padrão `dd/MM/yyyy`
-* Formatação dos horários no padrão `HH:mm`
+* Seleção de um dia específico
+* Criação de compromissos
+* Registro de data e horário do compromisso
+* Listagem dos compromissos do dia selecionado
+* Busca de compromissos por data
+* Gerenciamento dos compromissos através de uma classe específica
 
 ### 🖥️ Interface
 
@@ -77,7 +67,7 @@ O projeto está sendo desenvolvido de forma incremental, com novas funcionalidad
 * Menu lateral
 * Tela de gerenciamento de tarefas
 * Tela de agenda
-* Componentes reutilizáveis para representação das tarefas
+* Calendário mensal
 
 ---
 
@@ -99,13 +89,14 @@ A aplicação está organizada em diferentes classes, buscando separar as respon
 ```text
 src/
 │
+├── Compromisso.java
+├── GerenciadorCompromissos.java
+│
 ├── Tarefa.java
 ├── GerenciadorTarefas.java
 ├── TarefaPainel.java
 │
-├── Compromisso.java
-├── GerenciadorCompromissos.java
-│
+├── SecretarIA.java
 ├── TelaLogin.java
 ├── TelaCadastrarConta.java
 ├── TelaRecuperarSenha.java
@@ -115,6 +106,23 @@ src/
 ```
 
 ### Principais classes
+
+**`Compromisso`**
+
+Representa um compromisso da agenda, armazenando informações como:
+
+* Descrição
+* Data
+* Horário
+
+**`GerenciadorCompromissos`**
+
+Responsável pelo gerenciamento dos compromissos, incluindo:
+
+* Adição
+* Remoção
+* Busca de compromissos por data
+* Contagem de compromissos
 
 **`Tarefa`**
 
@@ -131,7 +139,6 @@ Responsável pelo gerenciamento das tarefas, incluindo:
 
 * Adição
 * Remoção
-* Edição
 * Validação
 * Contagem
 * Geração do resumo das tarefas
@@ -139,18 +146,6 @@ Responsável pelo gerenciamento das tarefas, incluindo:
 **`TarefaPainel`**
 
 Responsável pela representação visual de uma tarefa na interface.
-
-**`Compromisso`**
-
-Representa um compromisso da agenda, armazenando:
-
-* Descrição
-* Data
-* Horário
-
-**`GerenciadorCompromissos`**
-
-Responsável pelo gerenciamento dos compromissos cadastrados na agenda.
 
 **`TelaLogin`**
 
@@ -174,7 +169,7 @@ Responsável pela interface e interação do usuário com o gerenciamento de tar
 
 **`TelaAgenda`**
 
-Responsável pela interface do calendário, navegação entre meses, seleção de datas e cadastro de compromissos.
+Responsável pela interface do calendário e interação do usuário com os compromissos.
 
 ---
 
@@ -190,7 +185,6 @@ Durante o desenvolvimento do SecretarIA estão sendo praticados conceitos import
 * Modificadores de acesso
 * Métodos `static`
 * Métodos de instância
-* Interfaces
 * Listas e `ArrayList`
 * Estruturas condicionais
 * Laços de repetição
@@ -200,12 +194,10 @@ Durante o desenvolvimento do SecretarIA estão sendo praticados conceitos import
 * Formatação de datas com `DateTimeFormatter`
 * Interfaces gráficas com Swing
 * Eventos e `ActionListener`
-* `JPanel`, `JButton`, `JLabel` e outros componentes Swing
-* `BoxLayout`
-* `GridLayout`
-* `BorderLayout`
 * Separação de responsabilidades
-* Organização e refatoração de código
+* Organização de classes
+* Refatoração de código
+* Busca e filtragem de objetos por data
 
 ---
 
@@ -218,13 +210,13 @@ O SecretarIA ainda está em desenvolvimento. Entre as próximas melhorias planej
 * [ ] Armazenamento de usuários
 * [ ] Armazenamento permanente das tarefas
 * [ ] Armazenamento permanente dos compromissos
+* [ ] Edição de tarefas
+* [ ] Edição de compromissos
+* [ ] Exclusão de compromissos pela interface
 * [ ] Filtros de tarefas
 * [ ] Ordenação por prioridade e prazo
-* [ ] Exibição dos compromissos por data selecionada
-* [ ] Edição de compromissos
-* [ ] Exclusão de compromissos
-* [ ] Desenvolvimento do módulo de configurações
 * [ ] Melhorias na interface gráfica
+* [ ] Desenvolvimento do módulo de configurações
 * [ ] Melhor organização da arquitetura do projeto
 * [ ] Melhorias de segurança na autenticação
 * [ ] Testes automatizados
